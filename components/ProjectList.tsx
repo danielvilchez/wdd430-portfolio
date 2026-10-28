@@ -13,6 +13,7 @@ const projects = [
         description:
             "A learning project focused on understanding React elements, JSX, and how components render content in the browser.",
         technologies: ["React", "JavaScript", "HTML"],
+        link: "https://github.com/danielvilchez/wdd430-react-dom-practice",
     },
 ];
 
