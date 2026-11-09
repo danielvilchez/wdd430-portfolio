@@ -1,9 +1,50 @@
+import { connection } from "next/server";
 import { getProjects } from "@/lib/projects-db";
 
-export const instant = false;
+async function OpenSourceContent() {
+    await connection();
+
+
+
+    const projects = await getProjects("opensource");
+
+    return (
+        <div className="grid gap-6 md:grid-cols-2">
+            {projects.map((project) => (
+                <article
+                    key={project.id}
+                    className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
+                >
+                    <h2 className="mb-2 text-xl font-bold text-gray-900">
+                        {project.title}
+                    </h2>
+
+                    <p className="mb-4 text-gray-600">
+                        {project.description}
+                    </p>
+
+                    <p className="text-sm text-gray-500">
+                        Technologies: {project.technologies.join(", ")}
+                    </p>
+
+                    {project.link && (
+                        <a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-4 inline-block text-blue-600 hover:underline"
+                        >
+                            View Project
+                        </a>
+                    )}
+                </article>
+            ))}
+        </div>
+    );
+}
 
 export default async function OpenSourcePage() {
-    const projects = await getProjects("opensource");
+    await connection();
 
     return (
         <section className="py-8">
@@ -15,37 +56,7 @@ export default async function OpenSourcePage() {
                 Here you can explore my open source projects and contributions.
             </p>
 
-            <div className="grid gap-6 md:grid-cols-2">
-                {projects.map((project) => (
-                    <article
-                        key={project.id}
-                        className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
-                    >
-                        <h2 className="mb-2 text-xl font-bold text-gray-900">
-                            {project.title}
-                        </h2>
-
-                        <p className="mb-4 text-gray-600">
-                            {project.description}
-                        </p>
-
-                        <p className="text-sm text-gray-500">
-                            Technologies: {project.technologies.join(", ")}
-                        </p>
-
-                        {project.link && (
-                            <a
-                                href={project.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="mt-4 inline-block text-blue-600 hover:underline"
-                            >
-                                View Project
-                            </a>
-                        )}
-                    </article>
-                ))}
-            </div>
+            <OpenSourceContent />
         </section>
     );
 }
