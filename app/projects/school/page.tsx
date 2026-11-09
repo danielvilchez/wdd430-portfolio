@@ -1,10 +1,9 @@
-import type { Project } from "@/lib/projects-db";
+import { getProjects } from "@/lib/projects-db";
+
+export const instant = false;
 
 export default async function SchoolPage() {
-    const response = await fetch(
-        "http://localhost:3000/api/projects?type=school"
-    );
-    const projects: Project[] = await response.json();
+    const projects = await getProjects("school");
 
     return (
         <section className="py-8">
