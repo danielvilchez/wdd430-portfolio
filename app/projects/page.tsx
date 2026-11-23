@@ -1,4 +1,5 @@
-
+import { deleteProject } from "@/lib/actions";
+import Link from "next/link";
 import Pagination from "@/components/projects/Pagination";
 import { Suspense } from "react";
 import { connection } from "next/server";
@@ -53,6 +54,25 @@ async function ProjectsContent({
                                 View Project
                             </a>
                         )}
+
+                        <div className="mt-6 flex gap-3">
+                            <Link
+                                href={`/projects/${project.id}/edit`}
+                                className="rounded-lg bg-yellow-500 px-4 py-2 text-white hover:bg-yellow-600"
+                            >
+                                Edit
+                            </Link>
+
+                            <form action={deleteProject.bind(null, project.id.toString())}>
+                                <button
+                                    type="submit"
+                                    className="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                                >
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+
                     </article>
                 ))
             ) : (
@@ -104,9 +124,18 @@ async function ProjectsPageContent({
 
     return (
         <section className="py-12">
-            <h1 className="mb-6 text-3xl font-bold text-gray-900">
-                My Projects
-            </h1>
+            <div className="mb-6 flex items-center justify-between">
+                <h1 className="text-3xl font-bold text-gray-900">
+                    My Projects
+                </h1>
+
+                <Link
+                    href="/projects/create"
+                    className="rounded-lg bg-blue-600 px-5 py-3 font-medium text-white hover:bg-blue-700"
+                >
+                    + Add Project
+                </Link>
+            </div>
 
             <p className="mb-8 text-gray-600">
                 Welcome to my projects page. Here you can explore my open source
