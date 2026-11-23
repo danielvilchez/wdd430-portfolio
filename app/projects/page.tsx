@@ -1,4 +1,6 @@
+
 import { deleteProject } from "@/lib/actions";
+import { auth } from "@/auth";
 import Link from "next/link";
 import Pagination from "@/components/projects/Pagination";
 import { Suspense } from "react";
@@ -17,6 +19,9 @@ async function ProjectsContent({
     currentPage: number;
 }) {
     await connection();
+
+    const session = await auth();
+    const isOwner = !!session?.user;
 
     const projects = await fetchFilteredProjects(query, currentPage);
 
@@ -55,24 +60,25 @@ async function ProjectsContent({
                             </a>
                         )}
 
-                        <div className="mt-6 flex gap-3">
-                            <Link
-                                href={`/projects/${project.id}/edit`}
-                                className="rounded-lg bg-yellow-500 px-4 py-2 text-white hover:bg-yellow-600"
-                            >
-                                Edit
-                            </Link>
-
-                            <form action={deleteProject.bind(null, project.id.toString())}>
-                                <button
-                                    type="submit"
-                                    className="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                        {isOwner && (
+                            <div className="mt-6 flex gap-3">
+                                <Link
+                                    href={`/projects/${project.id}/edit`}
+                                    className="rounded-lg bg-yellow-500 px-4 py-2 text-white hover:bg-yellow-600"
                                 >
-                                    Delete
-                                </button>
-                            </form>
-                        </div>
+                                    Edit
+                                </Link>
 
+                                <form action={deleteProject.bind(null, project.id.toString())}>
+                                    <button
+                                        type="submit"
+                                        className="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                                    >
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        )}
                     </article>
                 ))
             ) : (
@@ -122,6 +128,9 @@ async function ProjectsPageContent({
             ? requestedPage
             : 1;
 
+    const session = await auth();
+    const isOwner = !!session?.user;
+
     return (
         <section className="py-12">
             <div className="mb-6 flex items-center justify-between">
@@ -129,12 +138,14 @@ async function ProjectsPageContent({
                     My Projects
                 </h1>
 
-                <Link
-                    href="/projects/create"
-                    className="rounded-lg bg-blue-600 px-5 py-3 font-medium text-white hover:bg-blue-700"
-                >
-                    + Add Project
-                </Link>
+                {isOwner && (
+                    <Link
+                        href="/projects/create"
+                        className="rounded-lg bg-blue-600 px-5 py-3 font-medium text-white hover:bg-blue-700"
+                    >
+                        + Add Project
+                    </Link>
+                )}
             </div>
 
             <p className="mb-8 text-gray-600">

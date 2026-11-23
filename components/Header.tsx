@@ -1,7 +1,15 @@
-import Link from "next/link";
-import NavLinks from "./NavLinks";
 
-export default function Header() {
+import Link from "next/link";
+import { connection } from "next/server";
+import NavLinks from "./NavLinks";
+import { auth } from "@/auth";
+import { SignOutButton } from "./sign-out-button";
+
+export default async function Header() {
+    await connection();
+
+    const session = await auth();
+
     return (
         <header className="border-b border-gray-200 bg-white">
             <nav
@@ -15,7 +23,11 @@ export default function Header() {
                     My Portfolio
                 </Link>
 
-                <NavLinks />
+                <div className="flex items-center gap-4">
+                    <NavLinks />
+
+                    {session?.user && <SignOutButton />}
+                </div>
             </nav>
         </header>
     );
