@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { connection } from "next/server";
 import { getProjects } from "@/lib/projects-db";
+
+export const metadata: Metadata = {
+    title: "School Projects",
+    description:
+        "Explore my academic web development projects and the technologies I have learned and applied.",
+};
 
 function ProjectCardSkeleton() {
     return (

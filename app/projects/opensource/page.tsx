@@ -1,11 +1,14 @@
+import type { Metadata } from "next";
 import { connection } from "next/server";
 import { getProjects } from "@/lib/projects-db";
 
+export const metadata: Metadata = {
+    title: "Open Source Projects",
+    description:
+        "Explore my open source projects and contributions, including the technologies used to build them.",
+};
+
 async function OpenSourceContent() {
-    await connection();
-
-
-
     const projects = await getProjects("opensource");
 
     return (

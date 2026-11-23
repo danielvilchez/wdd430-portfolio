@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import SkillCard from "@/components/SkillCard";
+
+export const metadata: Metadata = {
+    title: "About Me",
+    description:
+        "Learn about my web development journey, the skills I am developing, and my experience with React, Next.js, TypeScript, and Tailwind CSS.",
+};
 
 export default function AboutPage() {
     return (

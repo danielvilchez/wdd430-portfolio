@@ -1,3 +1,11 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Contact",
+    description:
+        "Get in touch with me to discuss web development, projects, and collaboration opportunities.",
+};
+
 export default function ContactPage() {
     return (
         <section className="py-12">

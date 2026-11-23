@@ -1,4 +1,4 @@
-
+import type { Metadata } from "next";
 import { deleteProject } from "@/lib/actions";
 import { auth } from "@/auth";
 import Link from "next/link";
@@ -10,6 +10,12 @@ import {
     fetchProjectsPages,
 } from "@/lib/projects-db";
 import ProjectSearch from "@/components/projects/ProjectSearch";
+
+export const metadata: Metadata = {
+    title: "Projects",
+    description:
+        "Explore my web development projects, including open source contributions, school projects, and the technologies I use.",
+};
 
 async function ProjectsContent({
     query,
